@@ -1,6 +1,8 @@
 pipeline {
     agent any
-    
+    environment {
+        DockerPasswd=credentials('passwd')
+    }
     stages {
         stage('clone the repo') {
             steps {
@@ -24,6 +26,15 @@ pipeline {
                 sshagent(credentials: ['ssh-agent']) {
                     sh '''
                     ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com "cd petclinic-app && docker build -t petclinic-app . -f Dockerfile.cp"
+                    '''
+                }
+            }
+        }
+        stage('push container to dockerhub ') {
+            steps {
+                sshagent(credentials: ['ssh-agent']) {
+                    sh '''
+                    ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com "docker login -u bohdanlesyk -p $DockerPasswd && docker push bohdanlesyk/petclinic-app"
                     '''
                 }
             }
