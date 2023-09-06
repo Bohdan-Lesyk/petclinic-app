@@ -13,9 +13,8 @@ pipeline {
             steps {
                 sshagent(credentials: ['ssh-agent']) {
                     sh '''
-                    ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com "rm -rf /home/ubuntu/* && ls -la"
+                    ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com rm -rf /home/ubuntu/*
                     scp -r petclinic-app ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com:~/
-                    ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com mv /home/ubuntu/petclinic-app/* /home/ubuntu
                     '''
                 }
             }
@@ -24,7 +23,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['ssh-agent']) {
                     sh '''
-                    ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com docker build -t petclinic-app . -f Dockerfile.cp
+                    ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com "cd petclinic-app && docker build -t petclinic-app . -f Dockerfile.cp"
                     '''
                 }
             }
