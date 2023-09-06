@@ -13,7 +13,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['ssh-agent']) {
                     sh '''
-                    ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com rm -rf /home/ubuntu/*
+                    ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com "rm -rf /home/ubuntu/* && ls -la"
                     scp -r petclinic-app ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com:~/
                     ssh ubuntu@ec2-44-205-67-140.compute-1.amazonaws.com mv /home/ubuntu/petclinic-app/* /home/ubuntu
                     '''
