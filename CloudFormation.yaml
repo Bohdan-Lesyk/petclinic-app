@@ -66,6 +66,15 @@ Resources:
       PubliclyAccessible: false
       BackupRetentionPeriod: 7
       MultiAZ: false 
+      
+   # RDS Subnet Group
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: "Subnet group for the RDS instance"
+      SubnetIds:
+        - !Ref Subnet
+      DBSubnetGroupName: petclinic-db-subnet
 
 Outputs:
   InstancePublicIp:
